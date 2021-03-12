@@ -1,0 +1,6 @@
+---
+# defaults file for mysql_db_user
+mysqldb_root_password: root
+mysqldb_user: mysql_db_user
+mysqldb_password: mysql_db_password
+mysqldb_database: mysql_db

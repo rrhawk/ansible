@@ -1,0 +1,11 @@
+- name: Installing webapp-server
+  hosts: appservers
+  roles:
+    - webapp-server
+    - mysql_db_check
+
+- name: Installing dbservers
+  hosts: dbservers
+  roles:
+    - mysql_db
+    - mysql_db_user

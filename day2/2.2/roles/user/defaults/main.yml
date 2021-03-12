@@ -1,0 +1,7 @@
+---
+# defaults file for user
+
+user_id: 1001
+user_name: user
+user_home: /home/{{ user_name }}
+group_id: 1001

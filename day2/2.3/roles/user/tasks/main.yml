@@ -1,0 +1,28 @@
+- name: "Create {{ group_name }} Group"
+  group:
+    name: "{{ user_group }}"
+    gid: "{{ user_gid }}"
+    state: present
+  become: yes
+
+- name: Add user "{{ user_name }}"
+  user:
+    name: "{{ user_name }}"
+    group: "{{ user_group }}"
+    home: "{{ user_home }}"
+    shell: "{{ user_shell }}"
+    createhome: "{{ user_home_create }}"
+    uid: "{{ user_id }}"
+    state: present
+  become: yes
+
+
+
+- name: Allow specified users to sudo
+  template:
+    src: sudoers.j2
+    dest: "/etc/sudoers.d/{{ user_name }}"
+    validate: 'visudo -cf %s'
+    mode: 0440
+  when: user_sudo_privs
+  become: yes

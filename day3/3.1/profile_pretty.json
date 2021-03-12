@@ -1,0 +1,10 @@
+{
+    "age": 32,
+    "firstname": "Joe",
+    "lastname": "Doe",
+    "skills": [
+        "Ansible",
+        "Docker",
+        "Kubernetes"
+    ]
+}

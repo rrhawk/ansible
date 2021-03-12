@@ -1,0 +1,14 @@
+[Unit]
+Description=Simple WebApp Server
+After=network.target
+
+[Service]
+Type=simple
+EnvironmentFile=-{{ mysqldb_check_home }}/config/mysqldb-check.conf
+ExecStart={{ mysqldb_check_home }}/bin/mysql-check
+ExecStop=/bin/kill -s QUIT $MAINPID
+User={{ mysqldb_check_user }}
+Group={{ mysqldb_check_group }}
+
+[Install]
+WantedBy=multi-user.target

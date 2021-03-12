@@ -1,0 +1,5 @@
+dependencies:
+- role: base
+- role: user
+  user_name: "{{ webapp_server_user }}"
+  user_group: "{{ webapp_server_group }}"

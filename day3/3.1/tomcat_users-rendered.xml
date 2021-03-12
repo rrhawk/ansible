@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ -
+ ##pgwy-team
+ -
+-->
+
+
+<tomcat-users xmlns="http://tomcat.apache.org/xml"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://tomcat.apache.org/xml tomcat-users.xsd"
+              version="1.0">
+  <role rolename="manager-gui"/>
+  <role rolename="manager-script"/>
+  <role rolename="manager-status"/>
+  <role rolename="manager-jmx"/>
+
+  <user username="simon" password="ohNg5vae" roles="manager-gui" />
+  <user username="pablo" password="aiph9Epa" roles="manager-gui" />
+  <user username="mark" password="iengaiS4" roles="manager-gui" />
+  <user username="babash" password="uo8Ohtu6" roles="manager-script" />
+  <user username="olaf" password="aiGee6ci" roles="manager-script" />
+  <user username="charley" password="ietiTai4" roles="manager-status" />
+  <user username="roxie" password="ahCho3ri" roles="manager-status" />
+  <user username="annabell" password="kie8EeSh" roles="manager-jmx" />
+  <user username="karl" password="vah0Ot7d" roles="manager-jmx" />
+
+</tomcat-users>

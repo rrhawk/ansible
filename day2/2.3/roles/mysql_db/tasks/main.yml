@@ -1,0 +1,78 @@
+- name: install epel
+  yum:
+    name: ['epel-release']
+    state: installed
+  become: true
+
+- name: install soft
+  yum:
+    name: ['python-devel', 'python-pip']
+    state: installed
+  become: true
+
+- name: installing MySQL repo
+  yum:
+    name: https://repo.mysql.com/mysql80-community-release-el7-3.noarch.rpm
+    state: present
+    disable_gpg_check: true
+  become: true
+
+- name: Update pip
+  pip:
+    name: pip
+    version: 20.3
+    executable: pip
+  become: true
+
+- name: Install setuptools for pip
+  pip:
+    name: setuptools
+    version: 8.0.1
+    executable: pip
+  become: true
+
+- name: Install PyMySQL module
+  pip:
+    name: pymysql
+    executable: pip
+  become: true
+
+
+- name: enabling MySQL repo
+  yum:
+    enablerepo: mysql80-community
+  become: true
+
+- name: installing MySQL Server
+  yum:
+    name: mysql-server
+    state: installed
+  become: true
+  register: mysqlrpminstall
+
+- name: running mysqld command for initiallizing
+  command: mysqld --initialize-insecure --user=mysql
+  become: true
+  when: mysqlrpminstall.changed
+
+- name: enabling mysql service
+  systemd:
+    name: mysqld
+    state: started
+    enabled: true
+  become: true
+
+- name: seting password to defaults root
+  mysql_user:
+    name: root
+    host: localhost
+    password: "{{ mysqldb_root_password }}"
+    check_implicit_admin: true
+    state: present
+  become: true
+  when: mysqlrpminstall.changed
+
+- name: Wait for start
+  wait_for:
+    port: "3306"
+  delay: 10

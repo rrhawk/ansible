@@ -1,0 +1,10 @@
+---
+# vars file for tomcat
+
+java_version: 1.8
+user_id: 1001
+user_name: tomcat
+user_home: /home/{{ user_name }}
+group_id: 1001
+tomcat_url: "https://archive.apache.org/dist/tomcat-{{ tomcat_release.split('.')[0] }}/v{{ tomcat_release }}/bin/apache-tomcat-{{ tomcat_release }}.tar.gz"
+tomcat_java_version: "1.{{ tomcat_release.split('.')[0] }}.0"

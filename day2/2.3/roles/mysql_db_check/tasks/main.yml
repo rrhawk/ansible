@@ -1,0 +1,66 @@
+- name: "Create {{ group_name }} Group"
+  group:
+    name: "{{ mysqldb_check_user  }}"
+    state: present
+  become: yes
+
+- name: Add user "{{ user_name }}"
+  user:
+    name: "{{ mysqldb_check_user }}"
+    group: "{{ mysqldb_check_group }}"
+    state: present
+  become: yes
+
+- name: Create a directory /opt/mysqldb-check/bin/ if it does not exist
+  file:
+    path: "{{ mysqldb_check_home }}/bin"
+    state: directory
+    owner: "{{ mysqldb_check_user }}"
+    group: "{{ mysqldb_check_group }}"
+    mode: 0755
+  become: yes
+
+- name: Create a directory /opt/mysqldb-check/config/ if it does not exist
+  file:
+    path: "{{ mysqldb_check_home }}/config"
+    state: directory
+    owner: "{{ mysqldb_check_user }}"
+    group: "{{ mysqldb_check_group }}"
+    mode: 0755
+  become: yes
+
+- name: Download Mysqldbcheck
+  get_url:
+    url: "{{ mysqldb_check_bin_url }}"
+    dest: "{{ mysqldb_check_home }}/bin/"
+    mode: 'u+x'
+    owner: "{{ mysqldb_check_user }}"
+    group: "{{ mysqldb_check_group }}"
+  become: yes
+
+- name: Copy Mysqldbcheck Configuration File
+  template:
+    src: mysqldb-check.conf.j2
+    dest: "{{ mysqldb_check_home }}/config/mysqldb-check.conf"
+    owner: "{{ mysqldb_check_user }}"
+    group: "{{ mysqldb_check_group }}"
+  notify: mysqldb-check restart
+  become: yes
+
+- name: Copy Mysqldbcheck Service File
+  template:
+    src: mysqldb-check.service.j2
+    dest: /usr/lib/systemd/system/mysqldb-check.service
+  become: yes
+
+- name: Enable and start Mysqldbcheck service
+  systemd:
+    name: mysqldb-check
+    state: started
+    enabled: yes
+  become: yes
+
+- name: Wait for start
+  wait_for:
+     port: "{{ mysqldb_check_port }}"
+  delay: 10

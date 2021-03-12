@@ -1,0 +1,15 @@
+[all:vars]
+remote-user=vagrant
+ansible_private_key_file=~/.ssh/id_rsa.pub
+
+[appservers:vars]
+http_port=8080
+
+[dbservers:vars]
+http_port=3306
+
+[appservers]
+192.168.56.101
+
+[dbservers]
+db1 ansible_host=192.168.56.102

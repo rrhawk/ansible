@@ -1,0 +1,6 @@
+- hosts: dbservers
+  roles:
+  - role: mysql_db
+    mysqldb_root_password: root
+
+  - role: mysql_db_user

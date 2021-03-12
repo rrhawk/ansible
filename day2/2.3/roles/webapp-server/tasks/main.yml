@@ -1,0 +1,52 @@
+
+- name: Create a directory /opt/webapp-server/bin/ if it does not exist
+  file:
+    path: "{{ webapp_server_home }}/bin"
+    state: directory
+    owner: "{{ webapp_server_user }}"
+    group: "{{ webapp_server_group }}"
+  become: yes
+
+- name: Create a directory /opt/webapp-server/conf/ if it does not exist
+  file:
+    path: "{{ webapp_server_home }}/conf"
+    state: directory
+    owner: "{{ webapp_server_user }}"
+    group: "{{ webapp_server_group }}"
+  become: yes
+
+- name: Download WebApp
+  get_url:
+    url: "{{ webapp_server_url }}"
+    dest: "{{ webapp_server_home }}/bin"
+    mode: 'u+x'
+    owner: "{{ webapp_server_user }}"
+    group: "{{ webapp_server_group }}"
+  become: yes
+
+- name: Copy Configuration File
+  template:
+    src: webapp-server.conf.j2
+    dest: "{{ webapp_server_home }}/conf/webapp-server.conf"
+    owner: "{{ webapp_server_user }}"
+    group: "{{ webapp_server_group }}"
+  notify: webapp-server restart
+  become: yes
+
+- name: Copy WebApp Service File
+  template:
+    src: webapp-server.service.j2
+    dest: /usr/lib/systemd/system/webapp-server.service
+  become: yes
+
+- name: Enable and start WebApp service
+  systemd:
+    name: webapp-server
+    state: started
+    enabled: yes
+  become: yes
+
+- name: Wait for start
+  wait_for:
+    port: "{{ webapp_server_port }}"
+  delay: 10

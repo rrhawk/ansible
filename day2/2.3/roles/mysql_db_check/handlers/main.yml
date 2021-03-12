@@ -1,0 +1,5 @@
+- name: mysqldb-check restart
+  systemd:
+    name: mysqldb-check
+    state: restarted
+  become: yes

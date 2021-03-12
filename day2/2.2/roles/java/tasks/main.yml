@@ -1,0 +1,4 @@
+---
+# tasks file for java
+
+- debug: msg="running java role"

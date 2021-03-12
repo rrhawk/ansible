@@ -1,0 +1,3 @@
+---
+# tasks file for base
+- debug: msg="running base role"

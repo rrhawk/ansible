@@ -1,0 +1,4 @@
+- hosts: all
+  roles:
+  - role: base
+    gather_facts: true

@@ -1,0 +1,13 @@
+- hosts: all
+  vars:
+    tomcat_version: 8.5.39
+  tasks:
+    - name: Download Tomcat Archive
+      wget:
+        src: "{{ tomcat_version | tomcat_url }}"
+        chksum: "{{ tomcat_version | tomcat_checksum }}"
+        dest: /tmp/111
+    #    group: user
+    #    owner: user
+    #    mode: 0644
+      become: yes

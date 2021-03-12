@@ -1,0 +1,48 @@
+- name: Trying Tomcat v8.0.12
+  hosts: localhost
+
+  vars:
+    tomcat_version: 8.11.77
+
+
+
+  tasks:
+
+  - name: Mandatory Variable should be provided
+    assert:
+      that:
+        - tomcat_version is defined
+        - tomcat_version | length > 0
+        - tomcat_version.split(".")[0]|int > 3
+        - tomcat_version.split(".")[0]|int < 10
+
+      msg: "Please enter right 'tomcat_version' variable"
+
+  - debug: msg="{{ tomcat_version | tomcat_url }}"
+    # produces: https://archive.apache.org/dist/tomcat/tomcat-8/v8.0.12/bin/apache-tomcat-8.0.12.tar.gz
+
+  - debug: msg="{{ tomcat_version | tomcat_checksum }}"
+    # produces: md5:2209cf269a1e73f2fd5f451a3703afbc
+
+- name: Trying Tomcat v8.5.39
+  hosts: localhost
+
+  vars:
+    tomcat_version: 8.5.39
+
+  tasks:
+  - name: Mandatory Variable should be provided
+    assert:
+      that:
+        - tomcat_version is defined
+        - tomcat_version | length > 0
+        - tomcat_version.split(".")[0]|int > 3
+        - tomcat_version.split(".")[0]|int < 10
+
+      msg: "Please enter right 'tomcat_version' variable"
+
+  - debug: msg="{{ tomcat_version | tomcat_url }}"
+    # produces: https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.39/bin/apache-tomcat-8.5.39.tar.gz
+
+  - debug: msg="{{ tomcat_version | tomcat_checksum }}"
+    # produces: sha512:8396f526eca9b691931cfa773f43c5190e7002d938cb253335b65a32c7ef8acba2bf7c61f2ccffc4113a3ba0c46169a4e4797cdea73db32c5ba56156a9f49353

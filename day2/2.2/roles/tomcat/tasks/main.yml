@@ -1,0 +1,4 @@
+---
+# tasks file for tomcat
+
+- debug: msg="running tomcat role"
